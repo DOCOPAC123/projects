@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool isOneBitCharacter(vector<int>& bits) {
-        int n = bits.size();
+        long n = bits.size();
         if(n==0)
         {
             return true;
