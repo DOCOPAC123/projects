@@ -1,35 +1,110 @@
 #include <bits/stdc++.h>
 using namespace std;
+
+bool compare(char a, char b)
+{
+    if(b=='{' && a=='}')
+    {
+        return true;
+    }
+    if(b=='[' && a==']')
+    {
+        return true;
+    }
+    if(b=='(' && a==')')
+    {
+        return true;
+    }
+    return false;
+}
 int main()
 {
-    int t; // t is the number of testcases
+    int t;
     cin >> t;
     while(t--)
     {
-        int n; // n is the number of packets
-        cin >> n;
-        vector<int> packets;
-        int temp;
-        for(int i=0;i<n;i++)
+        string s;
+        cin >> s;
+        int len = s.length();
+        stack<char> st;
+        bool ans = true;
+        for(int i=0;i<len;i++)
         {
-            cin >> temp;
-            packets.push_back(temp);
-        }
-        int m;
-        cin >> m;
-        sort(packets.begin(),packets.end());
-        int i=0;
-        int j = m-1;
-        int mini=packets[j]-packets[i];
-        while(j<n)
-        {
-            if(mini > (packets[j]-packets[i]))
+            if(s[i] == '{' || s[i] == '[' || s[i] == '(')
             {
-                mini = packets[j] - packets[i];
+                st.push(s[i]);
             }
-            i = i + 1;
-            j = j + 1;
+            else
+            {
+                switch (s[i]) {
+                    case '}':
+                    {
+                        if(st.size()==0)
+                        {
+                            ans = false;
+                        }
+                        else
+                        {
+                            char c = st.top();
+                            st.pop();
+                            if(!compare(s[i],c))
+                            {
+                                ans = false;
+                            }
+                            
+                        }
+                        break;
+                    }
+                        
+                    case ']' :
+                    {
+                        if(st.size()==0)
+                        {
+                            ans = false;
+                        }
+                        else
+                        {
+                            char c = st.top();
+                            st.pop();
+                            if(!compare(s[i],c))
+                            {
+                                ans = false;
+                            }
+                        }
+                        break;
+                    }
+                        
+                    case ')' :
+                    {
+                        if(st.size()==0)
+                        {
+                            ans = false;
+                        }
+                        else
+                        {
+                            char c = st.top();
+                            st.pop();
+                            if(!compare(s[i],c))
+                            {
+                                ans = false;
+                            }
+                        }
+                        break;
+                    }
+                        
+                        
+                    default:
+                        break;
+                }
+            }
         }
-        cout << mini << "\n";
+        if(ans)
+        {
+            cout << "balanced\n";
+        }
+        else
+            cout << "not balanced\n";
     }
 }
+
+
